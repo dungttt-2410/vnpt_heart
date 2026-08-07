@@ -1,0 +1,1050 @@
+
+<!DOCTYPE html>
+<html lang="vi">
+   <head>
+      <meta charset="UTF-8" />
+      <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+      <title>VNPT Heart - Vòng Quay Kiến Thức</title>
+      <link
+         href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;900&display=swap"
+         rel="stylesheet"
+      />
+      <link rel="stylesheet" href="style.css" />
+      <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+      <script src="data.js"></script>
+   </head>
+   <body>
+      <div class="bg-container">
+         <div class="spotlight left"></div>
+         <div class="spotlight right"></div>
+         <div class="orb"></div>
+         <div class="orb"></div>
+         <div class="orb"></div>
+         <div class="grid"></div>
+         <div id="stars"></div>
+         <div id="bokeh"></div>
+      </div>
+
+      <div class="floating-hearts" id="floatingHearts"></div>
+      <div class="sparkles" id="sparkles"></div>
+
+      <header class="header">
+         <h1>
+            <img
+               src="https://vnptgroup.vn/wp-content/uploads/2021/09/Logo-VNPT.png"
+               alt="VNPT"
+               class="logo-white"
+            />
+            Hội Thi Văn Hóa VNPT Heart
+         </h1>
+         <div class="subtitle">✨ Vòng 1: Am hiểu Văn hóa VNPT Heart ✨</div>
+      </header>
+
+      <div class="main-container">
+         <div class="left-col">
+            <div class="wheel-wrapper" id="wheelWrap">
+               <div class="wheel-ring ring-outer"></div>
+               <div class="wheel-ring ring-light"></div>
+               <div class="light-dots"></div>
+               <canvas id="wheelCanvas" width="800" height="800"></canvas>
+
+               <!-- KIM CHỈ MÀU VÀNG PHÍA TRÊN -->
+               <div class="pointer">
+                  <svg viewBox="0 0 120 120">
+                     <defs>
+                        <linearGradient
+                           id="pointerGrad"
+                           x1="0"
+                           y1="0"
+                           x2="0"
+                           y2="1"
+                        >
+                           <stop offset="0%" stop-color="#FFD700" />
+                           <stop offset="40%" stop-color="#FFC107" />
+                           <stop offset="100%" stop-color="#FFA000" />
+                        </linearGradient>
+                        <filter id="pointerGlow">
+                           <feGaussianBlur stdDeviation="3" result="blur" />
+                           <feMerge>
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="SourceGraphic" />
+                           </feMerge>
+                        </filter>
+                     </defs>
+
+                     <!-- Bóng cho kim -->
+                     <ellipse
+                        cx="60"
+                        cy="58"
+                        rx="20"
+                        ry="6"
+                        fill="rgba(0,0,0,0.3)"
+                        filter="url(#pointerGlow)"
+                     />
+
+                     <!-- Thân kim chính -->
+                     <path
+                        d="M60 2 L76 40 L60 34 L44 40 Z"
+                        fill="url(#pointerGrad)"
+                        stroke="#FFD700"
+                        stroke-width="2"
+                        filter="url(#pointerGlow)"
+                     />
+
+                     <!-- Điểm nhấn trên kim -->
+                     <path
+                        d="M60 8 L68 32 L60 28 L52 32 Z"
+                        fill="rgba(255,255,255,0.3)"
+                     />
+
+                     <!-- Vòng tròn đế kim -->
+                     <circle
+                        cx="60"
+                        cy="50"
+                        r="12"
+                        fill="url(#pointerGrad)"
+                        stroke="#FFD700"
+                        stroke-width="2.5"
+                        filter="url(#pointerGlow)"
+                     />
+                     <circle cx="60" cy="50" r="6" fill="#FFF" opacity="0.3" />
+                     <circle cx="60" cy="50" r="3" fill="#FFD700" />
+
+                     <!-- Tia sáng xung quanh kim -->
+                     <circle
+                        cx="60"
+                        cy="50"
+                        r="18"
+                        fill="none"
+                        stroke="rgba(255,215,0,0.2)"
+                        stroke-width="1"
+                     />
+                     <circle
+                        cx="60"
+                        cy="50"
+                        r="24"
+                        fill="none"
+                        stroke="rgba(255,215,0,0.1)"
+                        stroke-width="0.5"
+                     />
+                  </svg>
+               </div>
+
+               <!-- TRÁI TIM TRUNG TÂM -->
+               <div class="wheel-center" id="heartCenter">
+                  <svg viewBox="0 0 100 100">
+                     <defs>
+                        <linearGradient
+                           id="heartGrad"
+                           x1="0"
+                           y1="0"
+                           x2="0"
+                           y2="1"
+                        >
+                           <stop offset="0%" stop-color="#ff2d55" />
+                           <stop offset="50%" stop-color="#ff6b9d" />
+                           <stop offset="100%" stop-color="#ff1493" />
+                        </linearGradient>
+                        <linearGradient
+                           id="heartGrad2"
+                           x1="0"
+                           y1="0"
+                           x2="1"
+                           y2="1"
+                        >
+                           <stop offset="0%" stop-color="#ff6b9d" />
+                           <stop offset="100%" stop-color="#ff2d55" />
+                        </linearGradient>
+                        <filter id="heartGlow">
+                           <feGaussianBlur stdDeviation="3" result="blur" />
+                           <feMerge>
+                              <feMergeNode in="blur" />
+                              <feMergeNode in="SourceGraphic" />
+                           </feMerge>
+                        </filter>
+                        <radialGradient
+                           id="heartInner"
+                           cx="40%"
+                           cy="35%"
+                           r="60%"
+                        >
+                           <stop offset="0%" stop-color="#ffb3c6" />
+                           <stop offset="100%" stop-color="#ff2d55" />
+                        </radialGradient>
+                     </defs>
+
+                     <ellipse
+                        cx="50"
+                        cy="68"
+                        rx="30"
+                        ry="8"
+                        fill="rgba(0,0,0,0.2)"
+                        filter="url(#heartGlow)"
+                     />
+
+                     <path
+                        d="M50 88 C50 88, 8 58, 8 35 C8 18, 28 8, 50 22 C72 8, 92 18, 92 35 C92 58, 50 88, 50 88Z"
+                        fill="url(#heartGrad)"
+                        stroke="url(#heartGrad2)"
+                        stroke-width="1.5"
+                        filter="url(#heartGlow)"
+                     />
+
+                     <path
+                        d="M50 88 C50 88, 8 58, 8 35 C8 18, 28 8, 50 22 C72 8, 92 18, 92 35 C92 58, 50 88, 50 88Z"
+                        fill="url(#heartInner)"
+                        opacity="0.4"
+                     />
+
+                     <ellipse
+                        cx="35"
+                        cy="28"
+                        rx="8"
+                        ry="5"
+                        fill="rgba(255,255,255,0.3)"
+                        transform="rotate(-30, 35, 28)"
+                     />
+                     <ellipse
+                        cx="65"
+                        cy="28"
+                        rx="8"
+                        ry="5"
+                        fill="rgba(255,255,255,0.3)"
+                        transform="rotate(30, 65, 28)"
+                     />
+
+                     <circle
+                        cx="25"
+                        cy="45"
+                        r="1.5"
+                        fill="white"
+                        opacity="0.6"
+                     />
+                     <circle
+                        cx="75"
+                        cy="45"
+                        r="1.5"
+                        fill="white"
+                        opacity="0.6"
+                     />
+                     <circle cx="50" cy="55" r="2" fill="white" opacity="0.4" />
+                     <circle cx="30" cy="60" r="1" fill="white" opacity="0.5" />
+                     <circle cx="70" cy="60" r="1" fill="white" opacity="0.5" />
+
+                     <circle
+                        cx="50"
+                        cy="50"
+                        r="48"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.08)"
+                        stroke-width="1"
+                     />
+                     <circle
+                        cx="50"
+                        cy="50"
+                        r="44"
+                        fill="none"
+                        stroke="rgba(255,255,255,0.05)"
+                        stroke-width="0.5"
+                     />
+                  </svg>
+
+                  <div class="heart-text">
+                     VNPT
+                     <small>HEART</small>
+                  </div>
+               </div>
+            </div>
+         </div>
+
+         <div class="right-col">
+            <div class="panel-card">
+               <div class="panel-title">
+                  <span>👦👧 Cặp đôi thí sinh</span
+                  ><span class="badge" id="participantCount">0</span>
+               </div>
+               <div class="panel-body" id="participantList"></div>
+            </div>
+
+            <div class="status-bar">
+               <div class="stat-item">
+                  ❓ Còn
+                  <span class="stat-value" id="remainingQuestions">30</span> câu
+               </div>
+               <div class="stat-item">
+                  ✅ Đã trả lời
+                  <span class="stat-value" id="answeredCount">0</span> lượt
+               </div>
+            </div>
+            <div class="used-questions" id="usedQuestions"></div>
+         </div>
+      </div>
+
+      <button
+         class="fullscreen-btn"
+         id="fullscreenBtn"
+         title="Phóng to / thu nhỏ"
+      >
+         ⛶
+      </button>
+
+      <div class="popup-overlay" id="popupOverlay">
+         <div class="popup-box">
+            <div class="popup-answers">
+               <div class="participant-info" id="popupParticipantInfo"></div>
+            </div>
+            <h2 id="popupTitle">Câu hỏi</h2>
+            <div class="popup-question-wrapper">
+               <div class="popup-question" id="popupQuestion"></div>
+               <button
+                  class="speak-btn"
+                  id="speakQuestionBtn"
+                  title="Đọc câu hỏi"
+               >
+                  🔊
+               </button>
+            </div>
+
+            <div id="popupRevealArea"></div>
+            <div class="popup-actions">
+               <button class="btn-reveal" id="btnReveal">
+                  📖 Đáp án của chương trình
+               </button>
+               <button class="btn-ok" id="btnOk">✅ OK</button>
+            </div>
+         </div>
+      </div>
+
+      <audio
+         id="spinAudio"
+         loop
+         src="https://raw.githubusercontent.com/Dung2410/vongquaymayman/main/spin.mp3"
+      ></audio>
+      <audio
+         id="successAudio"
+         src="https://raw.githubusercontent.com/Dung2410/vongquaymayman/main/success.mp3"
+      ></audio>
+
+      <script>
+         // ===== TRANG TRÍ =====
+         (function () {
+            const c = document.getElementById("floatingHearts");
+            const h = ["❤️", "💙", "💜", "💖", "💗", "💕"];
+            for (let i = 0; i < 50; i++) {
+               const s = document.createElement("span");
+               s.className = "heart";
+               s.textContent = h[i % h.length];
+               s.style.left = Math.random() * 100 + "%";
+               s.style.fontSize = 10 + Math.random() * 28 + "px";
+               s.style.animationDuration = 14 + Math.random() * 22 + "s";
+               s.style.animationDelay = Math.random() * 18 + "s";
+               c.appendChild(s);
+            }
+         })();
+         (function () {
+            const c = document.getElementById("sparkles");
+            for (let i = 0; i < 60; i++) {
+               const d = document.createElement("div");
+               d.className = "sparkle";
+               d.style.left = Math.random() * 100 + "%";
+               d.style.top = Math.random() * 100 + "%";
+               d.style.width = 2 + Math.random() * 4 + "px";
+               d.style.height = d.style.width;
+               d.style.animationDelay = Math.random() * 5 + "s";
+               d.style.animationDuration = 2 + Math.random() * 4 + "s";
+               c.appendChild(d);
+            }
+         })();
+
+         const heartContainer = document.querySelector(".floating-hearts");
+         const colors = [
+            "#ff3cac",
+            "#ff66ff",
+            "#ff80bf",
+            "#66ccff",
+            "#00d4ff",
+            "#ffffff",
+         ];
+         for (let i = 0; i < 35; i++) {
+            const heart = document.createElement("div");
+            heart.className = "heart";
+            heart.innerHTML = Math.random() > 0.5 ? "❤" : "♡";
+            heart.style.left = Math.random() * 100 + "vw";
+            heart.style.fontSize = 18 + Math.random() * 28 + "px";
+            heart.style.animationDuration = 8 + Math.random() * 10 + "s";
+            heart.style.animationDelay = -Math.random() * 20 + "s";
+            heart.style.opacity = 0.08 + Math.random() * 0.18;
+            heart.style.color =
+               colors[Math.floor(Math.random() * colors.length)];
+            heartContainer.appendChild(heart);
+         }
+
+         const lightRing = document.querySelector(".light-dots");
+         for (let i = 0; i < 72; i++) {
+            const dot = document.createElement("span");
+            dot.style.setProperty("--i", i);
+            lightRing.appendChild(dot);
+         }
+
+         const stars = document.getElementById("stars");
+         for (let i = 0; i < 250; i++) {
+            const s = document.createElement("span");
+            s.className = "star";
+            s.style.left = Math.random() * 100 + "%";
+            s.style.top = Math.random() * 100 + "%";
+            const size = Math.random() * 3 + 1;
+            s.style.width = size + "px";
+            s.style.height = size + "px";
+            s.style.animationDelay = Math.random() * 4 + "s";
+            stars.appendChild(s);
+         }
+
+         const bokeh = document.getElementById("bokeh");
+         for (let i = 0; i < 70; i++) {
+            const d = document.createElement("span");
+            d.className = "bokeh-dot";
+            d.style.left = Math.random() * 100 + "%";
+            d.style.top = Math.random() * 100 + "%";
+            const size = 5 + Math.random() * 15;
+            d.style.width = size + "px";
+            d.style.height = size + "px";
+            d.style.animationDelay = Math.random() * 6 + "s";
+            bokeh.appendChild(d);
+         }
+
+         // ===== FULLSCREEN =====
+         document
+            .getElementById("fullscreenBtn")
+            .addEventListener("click", function () {
+               if (!document.fullscreenElement) {
+                  document.documentElement.requestFullscreen().catch(() => {});
+               } else {
+                  document.exitFullscreen().catch(() => {});
+               }
+            });
+
+         // ===== PHÁT MP3 CHO CÂU HỎI VÀ ĐÁP ÁN =====
+         const AUDIO_PATH = "cauhoi/";
+         const AUDIO_PATH1 = "dapan/";
+
+         let currentAudio = null;
+
+         function playQuestionMP3(questionId, callback) {
+            if (currentAudio) {
+               currentAudio.pause();
+               currentAudio.currentTime = 0;
+               currentAudio = null;
+            }
+
+            const audio = new Audio(`${AUDIO_PATH}cau${questionId}.mp3`);
+            currentAudio = audio;
+
+            audio.onended = function () {
+               currentAudio = null;
+               if (callback) callback();
+            };
+
+            audio.onerror = function () {
+               console.warn(
+                  `Không thể tải file: ${AUDIO_PATH}cau${questionId}.mp3`,
+               );
+               currentAudio = null;
+               if (callback) callback();
+            };
+
+            audio.play().catch(function (err) {
+               console.warn("Không thể phát audio:", err);
+               currentAudio = null;
+               if (callback) callback();
+            });
+
+            return audio;
+         }
+
+         function playAnswerMP3(questionId, callback) {
+            if (currentAudio) {
+               currentAudio.pause();
+               currentAudio.currentTime = 0;
+               currentAudio = null;
+            }
+
+            const audio = new Audio(`${AUDIO_PATH1}${questionId}.mp3`);
+            currentAudio = audio;
+
+            audio.onended = function () {
+               currentAudio = null;
+               if (callback) callback();
+            };
+
+            audio.onerror = function () {
+               console.warn(
+                  `Không thể tải file: ${AUDIO_PATH1}${questionId}.mp3`,
+               );
+               currentAudio = null;
+               if (callback) callback();
+            };
+
+            audio.play().catch(function (err) {
+               console.warn("Không thể phát audio:", err);
+               currentAudio = null;
+               if (callback) callback();
+            });
+
+            return audio;
+         }
+
+         function stopAudio() {
+            if (currentAudio) {
+               currentAudio.pause();
+               currentAudio.currentTime = 0;
+               currentAudio = null;
+            }
+         }
+
+         // ===== BIẾN TOÀN CỤC =====
+         let questions = [...ALL_QUESTIONS];
+         let participants = [];
+         let answeredCount = 0;
+         let isSpinning = false;
+         let currentQuestionIndex = null;
+         let currentParticipant = null;
+         let completedPairs = new Set();
+         let usedQuestionIds = new Set();
+         let answeredQuestionIds = new Set();
+         const pairToTeam = {};
+         PARTICIPANT_DATA.forEach((p) => {
+            pairToTeam[p.pair] = p.team;
+         });
+         const teamPairs = {};
+         for (let t = 1; t <= 6; t++) teamPairs[t] = [];
+         PARTICIPANT_DATA.forEach((p) => {
+            if (!teamPairs[p.team]) teamPairs[p.team] = [];
+            if (!teamPairs[p.team].includes(p.pair))
+               teamPairs[p.team].push(p.pair);
+         });
+
+         // ===== VÒNG QUAY =====
+         const canvas = document.getElementById("wheelCanvas");
+         const ctx = canvas.getContext("2d");
+         const cx = canvas.width / 2,
+            cy = canvas.height / 2,
+            radius = canvas.width / 2 - 4;
+         let startAngle = 0,
+            arc = 0;
+         let spinAnimationId = null;
+
+         const WHEEL_COLORS = [
+            "#FF6B6B",
+            "#FF9F43",
+            "#FECA57",
+            "#48DBFB",
+            "#0ABDE3",
+            "#10AC84",
+            "#EE5A24",
+            "#5F27CD",
+            "#341F97",
+            "#FF6FB7",
+            "#00D2D3",
+            "#54A0FF",
+            "#FF9FF3",
+            "#FF6348",
+            "#7BED9F",
+            "#70A1FF",
+            "#FF4757",
+            "#2ED573",
+            "#1E90FF",
+            "#FF6B81",
+            "#E056A0",
+            "#F8A5C2",
+            "#74B9FF",
+            "#A29BFE",
+            "#FD79A8",
+            "#00CEC9",
+            "#FDCB6E",
+            "#6C5CE7",
+            "#FD79A8",
+            "#00B894",
+         ];
+
+         function drawWheel() {
+            const total = questions.length || 1;
+            arc = (2 * Math.PI) / total;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            ctx.save();
+            ctx.translate(cx, cy);
+            ctx.rotate(startAngle);
+
+            for (let i = 0; i < total; i++) {
+               const angle = i * arc;
+               const color = WHEEL_COLORS[i % WHEEL_COLORS.length];
+               const question = questions[i];
+               const isAnswered =
+                  question && answeredQuestionIds.has(question.id);
+
+               ctx.beginPath();
+               ctx.moveTo(0, 0);
+               ctx.arc(0, 0, radius, angle, angle + arc, false);
+               ctx.closePath();
+
+               if (isAnswered) {
+                  const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, radius);
+                  grad.addColorStop(0, "rgba(100,100,100,0.3)");
+                  grad.addColorStop(1, "rgba(50,50,50,0.5)");
+                  ctx.fillStyle = grad;
+                  ctx.fill();
+
+                  ctx.save();
+                  const midAngle = angle + arc / 2;
+                  ctx.rotate(midAngle);
+                  ctx.rotate(Math.PI / 2);
+                  ctx.textAlign = "center";
+                  ctx.textBaseline = "middle";
+                  ctx.fillStyle = "rgba(0,255,100,0.5)";
+                  ctx.font = "bold 18px Poppins";
+                  ctx.shadowColor = "rgba(0,0,0,0.7)";
+                  ctx.shadowBlur = 6;
+                  const textRadius = radius * 0.74;
+                  ctx.fillText("✓", 0, -textRadius);
+                  ctx.restore();
+               } else {
+                  const grad = ctx.createRadialGradient(0, 0, 0, 0, 0, radius);
+                  grad.addColorStop(0, "rgba(255,255,255,0.15)");
+                  grad.addColorStop(1, color);
+                  ctx.fillStyle = grad;
+                  ctx.fill();
+
+                  ctx.save();
+                  const midAngle = angle + arc / 2;
+                  ctx.rotate(midAngle);
+                  ctx.rotate(Math.PI / 2);
+                  ctx.textAlign = "center";
+                  ctx.textBaseline = "middle";
+                  ctx.fillStyle = "#fff";
+                  ctx.font = "bold 12px Poppins";
+                  ctx.shadowColor = "rgba(0,0,0,0.7)";
+                  ctx.shadowBlur = 6;
+                  const textRadius = radius * 0.74;
+                  ctx.fillText(
+                     `Câu ${String(question.id).padStart(2, "0")}`,
+                     0,
+                     -textRadius,
+                  );
+                  ctx.restore();
+               }
+
+               ctx.strokeStyle = isAnswered
+                  ? "rgba(100,100,100,0.2)"
+                  : "rgba(255,255,255,0.12)";
+               ctx.lineWidth = 1.5;
+               ctx.stroke();
+            }
+
+            ctx.restore();
+
+            ctx.save();
+            ctx.beginPath();
+            ctx.arc(cx, cy, radius, 0, 2 * Math.PI);
+            ctx.strokeStyle = "rgba(255,255,255,0.08)";
+            ctx.lineWidth = 3;
+            ctx.stroke();
+            ctx.restore();
+         }
+
+         // ===== CÁC HÀM XỬ LÝ =====
+         function initParticipants() {
+            participants = [];
+            completedPairs = new Set();
+            usedQuestionIds = new Set();
+            answeredQuestionIds = new Set();
+            questions = [...ALL_QUESTIONS];
+            answeredCount = 0;
+
+            PARTICIPANT_DATA.forEach((data) => {
+               participants.push({
+                  id: `C${data.pair}L1`,
+                  pair: data.pair,
+                  round: 1,
+                  answered: false,
+                  name1: data.name1,
+                  name2: data.name2,
+                  team: data.team,
+                  displayName: `
+				<div class="pair-title">Cặp thí sinh số ${data.pair} (${data.team})</div>
+				<div class="pair-members">
+					👨 ${data.name1}
+					<span class="vs">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+					👧 ${data.name2}
+				</div>
+				`,
+               });
+               participants.push({
+                  id: `C${data.pair}L2`,
+                  pair: data.pair,
+                  round: 2,
+                  answered: false,
+                  name1: data.name1,
+                  name2: data.name2,
+                  team: data.team,
+                  displayName: `
+					<div class="pair-title">Cặp thí sinh số ${data.pair} (${data.team})</div>
+					<div class="pair-members">
+						👨 ${data.name1}
+						<span class="vs">&nbsp;&nbsp;&nbsp;&nbsp;</span>
+						👧 ${data.name2}
+					</div>
+					`,
+               });
+            });
+
+            renderParticipants();
+            updateCounts();
+            updateUsedQuestions();
+            drawWheel();
+         }
+
+         function getParticipantStatus(part) {
+            if (part.answered)
+               return { label: "✅ Hoàn thành", cls: "status-done" };
+            if (currentParticipant && currentParticipant.id === part.id)
+               return { label: "🔄 Đang thi", cls: "status-playing" };
+            return { label: "⏳ Chờ thi", cls: "status-waiting" };
+         }
+
+         function renderParticipants() {
+            const list = document.getElementById("participantList");
+            const pairMap = {};
+            participants.forEach((p) => {
+               if (!pairMap[p.pair]) pairMap[p.pair] = [];
+               pairMap[p.pair].push(p);
+            });
+            const sortedPairs = Object.keys(pairMap)
+               .map(Number)
+               .sort((a, b) => a - b);
+
+            let html = `<table class="pair-table">
+    <thead></thead><tbody>`;
+
+            for (let pair of sortedPairs) {
+               const parts = pairMap[pair];
+               const r1 = parts.find((p) => p.round === 1);
+               const r2 = parts.find((p) => p.round === 2);
+               const allAnswered = r1.answered && r2.answered;
+               const team = r1.team || pairToTeam[pair] || 1;
+               const rowClass = allAnswered ? "completed-row" : "";
+               const status1 = getParticipantStatus(r1);
+               const status2 = getParticipantStatus(r2);
+
+               html += `<tr class="${rowClass}">
+      <td><span style="font-weight:600;font-size:12px;">${pair}</span></td>
+      <td><span style="font-size:11px;color:#e6f0ff;">👨${r1.name1}</span></td>
+      <td><span style="font-size:11px;color:#e6f0ff;">👧${r1.name2}</span></td>
+      <td><span style="color:#ffd700;font-weight:600;font-size:11px;">${team}</span></td>
+      <td style="text-align:center">
+        <span class="status-badge ${status1.cls}" style="font-size:8px;">${status1.label}</span>
+        ${!allAnswered ? `<span style="color:rgba(255,255,255,0.1);font-size:8px;"> / </span>` : ""}
+        ${!allAnswered ? `<span class="status-badge ${status2.cls}" style="font-size:8px;">${status2.label}</span>` : `<span style="color:#00c6fb;font-size:10px;">✅</span>`}
+      </td>
+      <td style="text-align:center">
+        ${
+           !allAnswered
+              ? `
+          <button class="btn-spin-sm" data-pair="${pair}" data-round="${r1.answered ? 2 : 1}"
+            ${isSpinning || (r1.answered && r2.answered) ? "disabled" : ""}>
+            🎯
+          </button>
+        `
+              : `
+          <button class="btn-done-sm" disabled>✅</button>
+        `
+        }
+      </td>
+    </tr>`;
+            }
+            html += `</tbody></table>`;
+            list.innerHTML = html;
+
+            document.querySelectorAll(".btn-spin-sm").forEach((btn) => {
+               btn.addEventListener("click", function () {
+                  if (isSpinning) return;
+                  const pair = parseInt(this.dataset.pair);
+                  const round = parseInt(this.dataset.round);
+                  const part = participants.find(
+                     (p) => p.pair === pair && p.round === round,
+                  );
+                  if (part && !part.answered) {
+                     handleSpinForParticipant(part);
+                  }
+               });
+            });
+
+            const remaining =
+               participants.filter((p) => !p.answered).length / 2;
+            document.getElementById("participantCount").textContent = remaining;
+         }
+
+         function updateCounts() {
+            document.getElementById("remainingQuestions").textContent =
+               questions.length;
+            document.getElementById("answeredCount").textContent =
+               participants.filter((p) => p.answered).length;
+         }
+
+         function updateUsedQuestions() {
+            const container = document.getElementById("usedQuestions");
+            container.innerHTML = "";
+            const total = ALL_QUESTIONS.length;
+            for (let i = 1; i <= total; i++) {
+               const dot = document.createElement("span");
+               dot.className = "used-dot";
+               if (usedQuestionIds.has(i)) {
+                  dot.classList.add("used");
+                  dot.textContent = String(i).padStart(2, "0");
+               } else {
+                  dot.classList.add("unused");
+                  dot.textContent = String(i).padStart(2, "0");
+               }
+               container.appendChild(dot);
+            }
+         }
+
+         function handleSpinForParticipant(participant) {
+            if (isSpinning || questions.length === 0 || participant.answered)
+               return;
+            currentParticipant = participant;
+            isSpinning = true;
+            const pair = participant.pair,
+               round = participant.round;
+            document
+               .querySelector(".wheel-wrapper canvas")
+               .classList.add("spinning");
+            renderParticipants();
+
+            const spinAudio = document.getElementById("spinAudio");
+            spinAudio.currentTime = 0;
+            spinAudio.play().catch(() => {});
+
+            const targetIdx = Math.floor(Math.random() * questions.length);
+
+            const pointerAngle = -Math.PI / 2;
+            const sliceCenter = targetIdx * arc + arc / 2;
+            const currentAngle =
+               ((startAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+            let targetAngle = pointerAngle - sliceCenter;
+            targetAngle =
+               ((targetAngle % (2 * Math.PI)) + 2 * Math.PI) % (2 * Math.PI);
+            let delta = targetAngle - currentAngle;
+            if (delta < 0) delta += Math.PI * 2;
+            const extraRotations = 6 + Math.floor(Math.random() * 3);
+            const totalRotation =
+               startAngle + delta + extraRotations * Math.PI * 2;
+
+            const duration = 4000 + Math.random() * 2000;
+            const start = performance.now();
+            const from = startAngle;
+
+            if (spinAnimationId) {
+               cancelAnimationFrame(spinAnimationId);
+               spinAnimationId = null;
+            }
+
+            function step(now) {
+               const t = Math.min(1, (now - start) / duration);
+               const eased = t < 0.5 ? 2 * t * t : -1 + (4 - 2 * t) * t;
+               startAngle = from + (totalRotation - from) * eased;
+               drawWheel();
+               if (t < 1) {
+                  spinAnimationId = requestAnimationFrame(step);
+               } else {
+                  startAngle = totalRotation % (Math.PI * 2);
+                  drawWheel();
+                  spinAnimationId = null;
+                  stopSpinHandler(targetIdx);
+               }
+            }
+            spinAnimationId = requestAnimationFrame(step);
+         }
+
+         function stopSpinHandler(targetIdx) {
+            document.getElementById("spinAudio").pause();
+            document.getElementById("spinAudio").currentTime = 0;
+            document
+               .querySelector(".wheel-wrapper canvas")
+               .classList.remove("spinning");
+            isSpinning = false;
+
+            if (questions.length === 0) {
+               renderParticipants();
+               return;
+            }
+            currentQuestionIndex = targetIdx % questions.length;
+            showQuestionPopup(currentQuestionIndex);
+         }
+
+         function showQuestionPopup(index) {
+            const q = questions[index];
+            if (!q) return;
+            document.getElementById("popupTitle").textContent =
+               "Câu hỏi số " + q.id;
+            document.getElementById("popupQuestion").textContent = q.q;
+            document.getElementById("popupRevealArea").innerHTML = "";
+            const info = document.getElementById("popupParticipantInfo");
+            const p = currentParticipant;
+            info.innerHTML = `${p ? p.displayName : ""}`;
+            document.getElementById("popupOverlay").classList.add("active");
+            window.currentQuestion = q;
+            window.currentParticipant = currentParticipant;
+            const btnReveal = document.getElementById("btnReveal");
+            const btnOk = document.getElementById("btnOk");
+            const speakAnswerBtn = document.getElementById("speakAnswerBtn");
+
+            if (btnReveal) btnReveal.style.display = "inline-block";
+            if (btnOk) btnOk.style.display = "none";
+            if (speakAnswerBtn) speakAnswerBtn.style.display = "none";
+
+            const questionId = q.id;
+            const speakBtn = document.getElementById("speakQuestionBtn");
+
+            // Tự động phát câu hỏi khi popup hiển thị
+            stopAudio(); // Dừng audio hiện tại nếu có
+            speakBtn.disabled = true;
+            speakBtn.textContent = "⏳";
+
+            playQuestionMP3(questionId, function () {
+               speakBtn.disabled = false;
+               speakBtn.textContent = "🔊";
+            });
+         }
+
+         // Nút đọc câu hỏi (MP3)
+         document
+            .getElementById("speakQuestionBtn")
+            .addEventListener("click", function () {
+               const q = window.currentQuestion;
+               if (!q) return;
+               const questionId = q.id;
+
+               stopAudio();
+               this.disabled = true;
+               this.textContent = "⏳";
+
+               playQuestionMP3(questionId, function () {
+                  const btn = document.getElementById("speakQuestionBtn");
+                  btn.disabled = false;
+                  btn.textContent = "🔊";
+               });
+            });
+
+         document
+            .getElementById("btnReveal")
+            .addEventListener("click", function () {
+               const q = window.currentQuestion;
+               if (!q) return;
+               document.getElementById("popupRevealArea").innerHTML = `
+				<div class="popup-answer-wrapper">
+					<div class="popup-answer-reveal">
+						<span class="label">📖 ĐÁP ÁN:</span>
+						<span class="answer-text">${q.answer}</span>
+					</div>
+					<button
+						class="speak-btn"
+						id="speakAnswerBtn"
+						title="Đọc đáp án">
+						🔊
+					</button>
+				</div>`;
+               this.style.display = "none";
+               document.getElementById("btnOk").style.display = "inline-block";
+
+               document
+                  .getElementById("speakAnswerBtn")
+                  .addEventListener("click", function () {
+                     const q = window.currentQuestion;
+                     if (!q) return;
+                     const questionId = q.id;
+
+                     stopAudio();
+                     this.disabled = true;
+                     this.textContent = "⏳";
+
+                     playAnswerMP3(questionId, function () {
+                        const btn = document.getElementById("speakAnswerBtn");
+                        btn.disabled = false;
+                        btn.textContent = "🔊";
+                     });
+                  });
+
+               const questionId = q.id;
+               const answerBtn = document.getElementById("speakAnswerBtn");
+               answerBtn.disabled = true;
+               answerBtn.textContent = "⏳";
+
+               playAnswerMP3(questionId, function () {
+                  const btn = document.getElementById("speakAnswerBtn");
+                  btn.disabled = false;
+                  btn.textContent = "🔊";
+               });
+            });
+
+         document
+            .getElementById("btnOk")
+            .addEventListener("click", function () {
+               const p = window.currentParticipant;
+               const q = window.currentQuestion;
+               if (p && q) {
+                  stopAudio();
+                  p.answered = true;
+                  answeredCount++;
+                  usedQuestionIds.add(q.id);
+                  answeredQuestionIds.add(q.id);
+
+                  const idx = questions.indexOf(q);
+                  if (idx > -1) questions.splice(idx, 1);
+                  renderParticipants();
+                  updateCounts();
+                  drawWheel();
+                  updateUsedQuestions();
+                  const sa = document.getElementById("successAudio");
+                  sa.currentTime = 0;
+                  sa.play().catch(() => {});
+                  confetti({
+                     particleCount: 200,
+                     spread: 120,
+                     origin: { y: 0.6 },
+                  });
+				  setTimeout(() => {
+					sa.pause();
+					sa.currentTime = 0;
+				}, 2500);
+                closePopup();
+               }
+            });
+
+         function closePopup() {
+            document.getElementById("popupOverlay").classList.remove("active");
+            document.getElementById("popupRevealArea").innerHTML = "";
+            document.getElementById("btnReveal").style.display = "inline-block";
+            document.getElementById("btnOk").style.display = "none";
+            document.getElementById("speakAnswerBtn").style.display = "none";
+            stopAudio();
+            const speakBtn = document.getElementById("speakQuestionBtn");
+            speakBtn.disabled = false;
+            speakBtn.textContent = "🔊";
+         }
+
+         document.addEventListener("keydown", function (e) {
+            if (
+               e.key === "Escape" &&
+               document
+                  .getElementById("popupOverlay")
+                  .classList.contains("active")
+            )
+               closePopup();
+         });
+
+         // ===== KHỞI TẠO =====
+         initParticipants();
+      </script>
+   </body>
+</html>
